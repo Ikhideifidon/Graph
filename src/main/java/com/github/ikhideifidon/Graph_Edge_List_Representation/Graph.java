@@ -2,14 +2,42 @@ package com.github.ikhideifidon.Graph_Edge_List_Representation;
 
 import java.util.*;
 
+/** This Graph implementation conforms to the following:
+ * 1. It is Undirected.
+ * 2. It is either weighted or unweighted.
+ * 3. It allows self-loop.
+ **/
 public class Graph<T extends Object & Comparable<T>> {
     // Instance Variables: Graph Definition
     // Each Vertex is mapped to its destination vertex.
     private Set<Vertex<T>> vertices = null;
+    private int v = 0;              // Number of vertices
+    private int e = 0;              // Number of edges
+
+    public enum WEIGHT {
+        WEIGHTED, UNWEIGHTED
+    }
+
+    /** Defaulted to unweighted*/
+    private WEIGHT weight = WEIGHT.UNWEIGHTED;
+
+
 
     // Constructors
     public Graph() {
-        vertices = new TreeSet<>();
+        vertices = new HashSet<>();
+    }
+
+    public Graph(WEIGHT weight) {
+        this.weight = weight;
+    }
+
+    public Graph(WEIGHT weight, Collection<Vertex<T>> collectionVertices) {
+        this(weight);
+        vertices.addAll(collectionVertices);
+        v += collectionVertices.size();
+        for (Vertex<T> vertex : collectionVertices)
+            e += vertex.getEdgeList().size();
     }
 
     // Setters and Getters
@@ -17,14 +45,72 @@ public class Graph<T extends Object & Comparable<T>> {
         return vertices;
     }
 
+    public WEIGHT getWeight() {
+        return weight;
+    }
+
+    public int v() {
+        return v;
+    }
+
+    public int e() {
+        e += countSelfLoop();
+        return e;
+    }
+
     public void addVertex(Vertex<T> vertex) {
         vertices.add(vertex);
+        v++;
     }
 
     public void addEdge(Vertex<T> to, Vertex<T> from, int weight) {
         if (to == null || from == null)
             throw new NullPointerException("Both 'to' and 'from' vertices cannot be null");
-        to.edgeList.add(new Edge<>(from, weight));
+        to.getEdgeList().add(new Edge<>(from, weight));
+        from.getEdgeList().add(new Edge<T>(to, weight));
+        e++;
+    }
+
+    public List<Edge<T>> adjacentVertices(Vertex<T> vertex) {
+        for (Vertex<T> v : vertices) {
+            if (vertex.compareTo(v) == 0)
+                return vertex.getEdgeList();
+        }
+        return null;
+    }
+
+    public int degree(Vertex<T> vertex) {
+        int degree = 0;
+        for (Vertex<T> v : vertices) {
+            if (vertex.compareTo(v) == 0)
+                degree = v.getEdgeList().size();
+        }
+        return degree;
+    }
+
+    public int maximumDegree() {
+        int maximumDegree = 0;
+        for (Vertex<T> vertex : vertices) {
+            if (vertex.edgeList.size() > maximumDegree)
+                maximumDegree = vertex.edgeList.size();
+        }
+        return maximumDegree;
+    }
+
+    public int countSelfLoop() {
+        int countSelfLoop = 0;
+        for (Vertex<T> vertex : vertices) {
+            for (Edge<T> edge : vertex.edgeList) {
+                if (vertex.compareTo(edge.getTo()) == 0)
+                    countSelfLoop++;
+            }
+        }
+        return countSelfLoop / 2;         // Each edge is counted twice.
+    }
+
+    public int averageDegree() {
+        // This is a measure of density/sparsity
+        return (2 * e()) / v();
     }
 
     public void printGraph(){
@@ -73,7 +159,7 @@ public class Graph<T extends Object & Comparable<T>> {
             return edgeList;
         }
 
-        public boolean adjacentVertex(Vertex<T> vertex) {
+        public boolean isAdjacentVertex(Vertex<T> vertex) {
             for (Edge<T> edge : edgeList) {
                 if (edge.to.equals(vertex))
                     return true;
@@ -226,12 +312,12 @@ public class Graph<T extends Object & Comparable<T>> {
             return result;
         }
 
-//        @Override
-//        public String toString() {
-//            StringBuilder builder = new StringBuilder();
-//            builder.append("[ ").append(from.value).append("(").append("]").append(" -> ")
-//                    .append("[ ").append(to.value).append("]").append(" = ").append(weight).append("\n");
-//            return builder.toString();
-//        }
+        @Override
+        public String toString() {
+            StringBuilder builder = new StringBuilder();
+            builder.append("[ ").append("(").append(" -> ")
+                    .append("[ ").append(to.value).append("]").append(" = ").append(weight).append("\n");
+            return builder.toString();
+        }
     }
 }

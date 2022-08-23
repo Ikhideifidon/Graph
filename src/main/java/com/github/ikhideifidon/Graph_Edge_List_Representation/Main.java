@@ -24,9 +24,17 @@ public class Main {
         ourGraph.addEdge(v1, v2, 3);
         ourGraph.addEdge(v2, v0, 1);
         ourGraph.addEdge(v2, v3, 1);
-        ourGraph.addEdge(v3, v2, 4);
+        ourGraph.addEdge(v3, v1, 4);
+        ourGraph.addEdge(v0, v0, 1);
 
         ourGraph.printGraph();
+        System.out.println(ourGraph.getWeight());
+        System.out.println(ourGraph.maximumDegree());
+        System.out.println(ourGraph.v());
+        System.out.println(ourGraph.e());
+        System.out.println(ourGraph.degree(v3));
+        System.out.println(ourGraph.adjacentVertices(v2));
+        System.out.println(ourGraph.countSelfLoop());
 
 
 

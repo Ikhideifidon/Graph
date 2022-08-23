@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c01141ce-3cf7-41e7-85ea-b24e2665d53a" name="Changes" comment="Graph Edge Representation">
+    <list default="true" id="c01141ce-3cf7-41e7-85ea-b24e2665d53a" name="Changes" comment="Graph Implementations">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/github/ikhideifidon/Graph_Edge_List_Representation/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/ikhideifidon/Graph_Edge_List_Representation/Graph.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/github/ikhideifidon/Graph_Edge_List_Representation/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/ikhideifidon/Graph_Edge_List_Representation/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/github/ikhideifidon/Graph_Edge_List_Representation/Graphs.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +65,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661017473756</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Graph Implementations">
+      <created>1661185753290</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1661185753290</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -83,6 +88,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Graph Edge Representation" />
-    <option name="LAST_COMMIT_MESSAGE" value="Graph Edge Representation" />
+    <MESSAGE value="Graph Implementations" />
+    <option name="LAST_COMMIT_MESSAGE" value="Graph Implementations" />
   </component>
 </project>
