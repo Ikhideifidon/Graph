@@ -13,6 +13,7 @@ public class Graph<T extends Object & Comparable<T>> {
     private Set<Vertex<T>> vertices = null;
     private int v = 0;              // Number of vertices
     private int e = 0;              // Number of edges
+    private final List<Vertex<T>> listVertices = new ArrayList<>();           // To keep track of all vertices
 
     public enum WEIGHT {
         WEIGHTED, UNWEIGHTED
@@ -45,6 +46,8 @@ public class Graph<T extends Object & Comparable<T>> {
         return vertices;
     }
 
+    public List<Vertex<T>> getListVertices() { return listVertices; }
+
     public WEIGHT getWeight() {
         return weight;
     }
@@ -54,12 +57,12 @@ public class Graph<T extends Object & Comparable<T>> {
     }
 
     public int e() {
-        e += countSelfLoop();
         return e;
     }
 
     public void addVertex(Vertex<T> vertex) {
         vertices.add(vertex);
+        listVertices.add(vertex);
         v++;
     }
 
@@ -67,7 +70,8 @@ public class Graph<T extends Object & Comparable<T>> {
         if (to == null || from == null)
             throw new NullPointerException("Both 'to' and 'from' vertices cannot be null");
         to.getEdgeList().add(new Edge<>(from, weight));
-        from.getEdgeList().add(new Edge<T>(to, weight));
+        if (to.compareTo(from) != 0)            // Test for a self-loop
+            from.getEdgeList().add(new Edge<T>(to, weight));
         e++;
     }
 
@@ -113,28 +117,37 @@ public class Graph<T extends Object & Comparable<T>> {
         return (2 * e()) / v();
     }
 
-    public void printGraph(){
-        //I printed it like this. You can print it however you want though
-        for(Vertex<T> v : vertices){
-            System.out.print("vertex name: "+ v.getValue() + ": ");
-            for(Edge<T> edge : v.getEdgeList()){
-                System.out.print("destVertex: " + edge.getTo().getValue() + " weight: " + edge.getWeight() + " | ");
+    public List<Vertex<T>> depthFirstSearch() {
+        Vertex<T> startVertex = listVertices.get(0);
+        Deque<Vertex<T>> stack = new LinkedList<>();
+        List<Vertex<T>> result = new ArrayList<>();
+        stack.push(startVertex);
+
+        while(!stack.isEmpty()) {
+            Vertex<T> current = stack.pop();
+
+            if (!current.isVisited()) {
+                current.setVisited(true);
+                result.add(current);
+
+                current.getEdgeList().forEach(stack::push);
             }
-            System.out.print("\n");
         }
+        return result;
     }
 
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         for (Vertex<T> v : vertices)
-            builder.append(v.toString());
+            builder.append(v.toString()).append("\n");
         return builder.toString();
     }
 
     public static class Vertex<T extends Object & Comparable<T>> implements Comparable<Vertex<T>> {
         // Instance Variables
         private final T value;
+        private boolean visited;
         private final List<Edge<T>> edgeList;
 
 
@@ -154,6 +167,10 @@ public class Graph<T extends Object & Comparable<T>> {
         public T getValue() {
             return value;
         }
+
+        public boolean isVisited() { return false; }
+
+        public void setVisited(boolean value) { visited = value; }
 
         public List<Edge<T>> getEdgeList() {
             return edgeList;
@@ -237,16 +254,21 @@ public class Graph<T extends Object & Comparable<T>> {
         @Override
         public String toString() {
             final StringBuilder builder = new StringBuilder();
-            builder.append("Value=").append(value).append("\n");
-            for (Edge<T> e : edgeList)
-                builder.append("\t").append(e.toString());
+            builder.append("Vertex = ").append(value).append("\n\t\t");
+            Iterator<Edge<T>> iter = edgeList.iterator();
+
+            while (iter.hasNext()) {
+                builder.append(iter.next().toString());
+                if (iter.hasNext())
+                    builder.append("--->");
+            }
             return builder.toString();
         }
     }
 
     public static class Edge<T extends Object & Comparable<T>> implements Comparable<Edge<T>> {
         // Instance Variables
-        private Vertex<T> to = null;
+        private final Vertex<T> to;
         private int weight = 0;
 
         // Constructor
@@ -314,10 +336,10 @@ public class Graph<T extends Object & Comparable<T>> {
 
         @Override
         public String toString() {
-            StringBuilder builder = new StringBuilder();
-            builder.append("[ ").append("(").append(" -> ")
-                    .append("[ ").append(to.value).append("]").append(" = ").append(weight).append("\n");
-            return builder.toString();
+
+            return "[" + this.to.value +
+                    "][" +
+                    this.weight + "]";
         }
     }
 }

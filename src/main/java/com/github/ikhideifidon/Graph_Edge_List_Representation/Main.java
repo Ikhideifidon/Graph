@@ -1,6 +1,7 @@
 package com.github.ikhideifidon.Graph_Edge_List_Representation;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Main {
@@ -20,21 +21,34 @@ public class Main {
         ourGraph.addVertex(v3);
 
         //edges
-        ourGraph.addEdge(v0, v1, 2);
-        ourGraph.addEdge(v1, v2, 3);
-        ourGraph.addEdge(v2, v0, 1);
-        ourGraph.addEdge(v2, v3, 1);
-        ourGraph.addEdge(v3, v1, 4);
-        ourGraph.addEdge(v0, v0, 1);
+        ourGraph.addEdge(v0, v1, 20);
+        ourGraph.addEdge(v1, v2, 13);
+        ourGraph.addEdge(v2, v0, 11);
+        ourGraph.addEdge(v2, v3, 11);
+        ourGraph.addEdge(v3, v1, 14);
+        ourGraph.addEdge(v1, v1, 11);
+//        ourGraph.addEdge(v2, v2, 1);
 
-        ourGraph.printGraph();
-        System.out.println(ourGraph.getWeight());
-        System.out.println(ourGraph.maximumDegree());
+        System.out.println(ourGraph);
         System.out.println(ourGraph.v());
         System.out.println(ourGraph.e());
-        System.out.println(ourGraph.degree(v3));
+        System.out.println(ourGraph.degree(v1));
         System.out.println(ourGraph.adjacentVertices(v2));
         System.out.println(ourGraph.countSelfLoop());
+        System.out.println(ourGraph.maximumDegree());
+        System.out.println(ourGraph.averageDegree());
+        Graph.Vertex<String> va = new Graph.Vertex<>("A");
+        Graph.Vertex<String> vb = new Graph.Vertex<>("B");
+        System.out.println(va);
+        System.out.println(v1);
+        Graph.Edge<String> ea = new Graph.Edge<>(va, 8);
+        Graph.Edge<String> eb = new Graph.Edge<>(va, 8);
+        System.out.println(ea.equals(eb));
+        System.out.println(ea.hashCode());
+        System.out.println(eb.hashCode());
+        System.out.println(ea);
+        System.out.println(ourGraph.getListVertices());
+
 
 
 
